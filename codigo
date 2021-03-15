@@ -1,0 +1,48 @@
+class Graph():
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = [[0 for column in range(vertices)] \
+                      for row in range(vertices)]
+        # Verifica as cores
+    def isSafe(self, v, colour, c):
+        for i in range(self.V):
+            if self.graph[v][i] == 1 and colour[i] == c:
+                return False
+        return True
+        # colori
+    def graphColourUtil(self, m, colour, v):
+        if v == self.V:
+            return True
+
+        for c in range(1, m + 1):
+            if self.isSafe(v, colour, c) == True:
+                colour[v] = c
+
+                if self.graphColourUtil(m, colour, v + 1) == True:
+                    return True
+                colour[v] = 0
+
+    def graphColouring(self, m):
+        colour = [0] * self.V
+        if self.graphColourUtil(m, colour, 0) == None:
+            return False
+
+            # Print the solution
+        print("A sequencia de cores é:")
+        for c in colour:
+            print(c)
+        return True
+
+def adicionar(u, v):
+    g.graph[u - 1][v - 1] = 1
+    g.graph[v - 1][u - 1] = 1
+
+tamanho = int(input('Qual o número de vértices?'))
+g = Graph(tamanho)
+arestas = int(input('Quantas arestas tem no grafo?'))
+for i in range(arestas):
+    u = int(input('aresta com início em:'))
+    v = int(input('aresta com fim em:'))
+    adicionar(u, v)
+m = 5  # define o número de cores (utilizei 5 me  baseando no teorema que afirma que qualquer mapa pode ser pintado com 4 cores.Exagerei pra 5)
+g.graphColouring(m)
