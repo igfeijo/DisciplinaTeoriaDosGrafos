@@ -1,48 +1,47 @@
 class Graph():
-    def __init__(self, vertices):
+    def __init__(self, vertices): #responsável por criar a matriz de adjacencia e preencher ela com zeros
         self.V = vertices
-        self.graph = [[0 for column in range(vertices)] \
-                      for row in range(vertices)]
+        self.graph = [[0] * tamanho for i in range(vertices)]
+        
         # Verifica as cores
     def isSafe(self, v, colour, c):
-        for i in range(self.V):
+        for i in range(self.V):#Percorre cada um dos vértices. 1 indica que há uma aresta no vertice e verifica se 
             if self.graph[v][i] == 1 and colour[i] == c:
                 return False
         return True
         # colori
-    def graphColourUtil(self, m, colour, v):
-        if v == self.V:
-            return True
+#####################################################################
+    def graphColourUtil(self, m, colour, v): #recebe o número de cores, recebe o vetor de cores disponiveis e recebe zero
+        if v == self.V: #percorre cada um dos vertices
+            return True #quando retornar true é pq ja percorreu todos os vertices
 
         for c in range(1, m + 1):
             if self.isSafe(v, colour, c) == True:
                 colour[v] = c
-
                 if self.graphColourUtil(m, colour, v + 1) == True:
                     return True
                 colour[v] = 0
-
+###################################################################
     def graphColouring(self, m):
-        colour = [0] * self.V
+        colour = [0] * self.V #cria um vetor das cores disponíveis para uso
         if self.graphColourUtil(m, colour, 0) == None:
             return False
 
-            # Print the solution
+            # Imprime a sequencia de cores nos respectivos vértices
         print("A sequencia de cores é:")
-        for c in colour:
-            print(c)
-        return True
+        print(colour)
 
-def adicionar(u, v):
+def adicionar(u, v): #depois de criada a matriz de adjacencia essa função adiciona a ligação de vértices com arestas
     g.graph[u - 1][v - 1] = 1
     g.graph[v - 1][u - 1] = 1
-
-tamanho = int(input('Qual o número de vértices?'))
-g = Graph(tamanho)
-arestas = int(input('Quantas arestas tem no grafo?'))
-for i in range(arestas):
-    u = int(input('aresta com início em:'))
-    v = int(input('aresta com fim em:'))
-    adicionar(u, v)
-m = 5  # define o número de cores (utilizei 5 me  baseando no teorema que afirma que qualquer mapa pode ser pintado com 4 cores.Exagerei pra 5)
-g.graphColouring(m)
+#################Começa aqui################
+tamanho = int(input('Qual o número de vértices?')) #Define o número de vértices do grafo
+g = Graph(tamanho) #Manda criar uma matriz de adjacência de acordo com o número de vértices recebidos
+arestas = int(input('Quantas arestas tem no grafo?')) #Define o número de arestas no grafo
+for i in range(arestas):#Faz a leitura de cada uma das arestas
+    u = int(input('aresta com início em:')) #vertice de partida da aresta
+    v = int(input('aresta com fim em:')) #Vertice de chegada da aresta
+    adicionar(u, v) #adiciona a matriz de adjacencia cada uma das arestas informadas pelo usuario
+m = 5  # define o número de cores 
+#(utilizei 5 me  baseando no teorema que afirma que qualquer mapa pode ser pintado com 4 cores.Exagerei pra 5)
+g.graphColouring(m) #manda colorir utilizando as 5 cores disponíveis (menor número)
